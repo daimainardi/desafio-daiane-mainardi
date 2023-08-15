@@ -12,12 +12,12 @@ class CaixaDaLanchonete {
             return 'Não há itens no carrinho de compra!';
         }
         let total = 0;
-        const itensSelecionados = {};
-        const itensPrincipais = [];
-        const itensExtras = [];
-        for (const item of itens) {
-            const [codigo, quantidade] = item.split(',');
-            const itemMenu = this.cardapio.buscarItemPorCodigo(codigo.trim());
+        let itensSelecionados = {};
+        let itensPrincipais = [];
+        let itensExtras = [];
+        for (let item of itens) {
+            let [codigo, quantidade] = item.split(',');
+            let itemMenu = this.cardapio.buscarItemPorCodigo(codigo.trim());
 
             if (itemMenu) {
                 if (!itemMenu.descricao.includes('(extra')) {
@@ -28,14 +28,14 @@ class CaixaDaLanchonete {
                 if (!quantidade || parseInt(quantidade) <= 0) {
                     return 'Quantidade inválida!';
                 }
-                const descricaoItem = itemMenu.descricao;
+                let descricaoItem = itemMenu.descricao;
                 itensSelecionados[descricaoItem] = (itensSelecionados[descricaoItem] || 0) + parseInt(quantidade);
                 total += itemMenu.valor * parseInt(quantidade);
             } else {
                 return 'Item inválido!';
             }
         }
-        const erroItensExtras = this.verificarItensExtras(itensPrincipais, itensExtras);
+        let erroItensExtras = this.verificarItensExtras(itensPrincipais, itensExtras);
         if (erroItensExtras) {
             return erroItensExtras;
         }
@@ -45,14 +45,14 @@ class CaixaDaLanchonete {
         } else if (metodoDePagamento === 'credito') {
             total *= 1.03;
         }
-        const formattedTotal = `R$ ${total.toFixed(2).replace('.', ',')}`;
+        let formattedTotal = `R$ ${total.toFixed(2).replace('.', ',')}`;
 
         return formattedTotal;
     
     }
 
     verificarItensExtras(itensPrincipais, itensExtras) {
-        for (const extra of itensExtras) {
+        for (let extra of itensExtras) {
             if (
                 extra.codigo.includes('chantily') &&
                 !itensPrincipais.some((principal) => principal.codigo.includes('cafe'))
